@@ -1,0 +1,11 @@
+__new code for flight data- created a table with join 
+
+select
+UNIQUE_CARRIER , ORIGIN_CODE , DEST_CODE , DEP_TIME , WHEELS_OFF , CARRIER_DELAY , WEATHER_DELAY , NAS_DELAY , SECURITY_DELAY , LATE_AIRCRAFT_DELAY , City_Airport
+into
+origin_x_carrier
+from
+Flight
+Right join
+    Airport on
+Airport.code = Flight.ORIGIN_CODE
