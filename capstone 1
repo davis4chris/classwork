@@ -9,3 +9,153 @@ Flight
 Right join
     Airport on
 Airport.code = Flight.ORIGIN_CODE
+
+
+
+Select
+*
+into dest_w_airline
+from
+destination_cross_ref
+right join
+Airport on
+airport.Code = destination_cross_ref.dest_code
+	
+
+
+select
+*
+into Destination_cross_Ref
+from 
+Flight
+left join
+Airline on
+	airline.Code = flight.airline_id
+right join
+Airport on
+airport.Code = flight.Dest_code 
+
+
+alter table dest_w_airline
+drop column code
+
+select
+*
+from
+dest_w_airline
+
+
+
+
+select
+*
+into
+merged_info
+from
+dest_w_airline
+right join
+airport on
+airport.Code = dest_w_airline.origin_code
+
+--Merged tables to create new tables and dropped columns
+select
+*
+from
+merged_info
+
+alter table merged_info
+drop column airline_code
+
+select
+*
+into
+departure_delays
+from
+merged_info
+where
+arr_delay > 0
+
+select
+*
+into
+Arrival_delays
+from
+merged_info
+where
+dep_delay > 0
+
+select
+*
+from
+Arrival_delay
+
+--delay types
+select
+*
+into
+weather
+from
+depart_delay
+where 
+weather_delay > 0
+
+
+select
+*
+into
+Security_delay
+from
+depart_delay
+where
+security_delay > 0
+
+select
+*
+into
+NAS_delay
+
+--section off tables
+select
+*
+from
+flight
+
+select 
+* 
+from carrier_delay
+from
+depart_delay
+where
+nas_delay > 0
+
+select
+*
+into
+Late_aircraft_delay
+from
+depart_delay
+where
+late_aircraft_delay > 0
+
+select
+*
+into
+Carrier_delay
+from
+depart_delay
+where
+carrier_delay > 0
+
+select 
+*
+into
+on_time_arrival
+from
+Flight
+where
+ARR_DELAY <0
+
+---delete the n from 
+update weather
+set TAIL_NUM = right(tail_num,5)
+
