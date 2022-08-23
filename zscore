@@ -1,0 +1,43 @@
+SELECT 
+STDEV([DEP_DELAY]) -- Sigma 47.1027721565732
+,AVG([DEP_DELAY]) -- Mu 13.0827336646787
+,MIN([DEP_DELAY]) 
+,MAX([DEP_DELAY]) 
+from dbo.Flight
+;
+SELECT 2040/-60	 as ratio_min_max;
+--(-34)
+WITH score
+as 
+(
+SELECT 
+(Dep_Delay - 13.0827336646787)/47.1027721565732 zscore
+FROM
+	Flight
+	)
+SELECT
+MIN(zscore) 
+,MAX(zscore) 
+from score;
+select 43.0318041493969/-1.55155907643283 as ratio_min_max_zscore
+--"ideal variance" = six sigma
+
+select 43.0318041493969 - -1.55155907643283 as stdev_range_zscore
+-- actual is 33+ sigma
+
+SELECT COUNT(*) from Flight;
+--460949
+
+WITH score
+as 
+(
+SELECT 
+(DEP_DELAY - 13.0827336646787)/47.1027721565732 zscore
+FROM
+	Flight
+	)
+SELECT ROUND(zscore,0) as zscore_bin
+, COUNT(*)/460949 as [pctage]
+from score
+GROUP BY ROUND(zscore,0) 
+ORDER BY ROUND(zscore,0) ASC
